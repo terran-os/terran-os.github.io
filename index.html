@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<!-- saved from url=(0037)https://terran-os.github.io/desing.html -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero OS Desing - Tu Sistema Operativo Linux</title>
+    <!-- Icono para barra de búsqueda y marcadores -->
+    <link rel="icon" type="image/png" href="https://terran-os.github.io/picture/terranos.png">
+    <!-- Si tienes un .ico, puedes usar también: -->
+    <!-- <link rel="icon" href="Picture/favicon.ico"> -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0e27;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.4) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -250px;
+            right: -250px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(118, 75, 162, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            bottom: -200px;
+            left: -200px;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-30px) scale(1.1); }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            text-align: center;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #a0aec0;
+            margin-bottom: 2.5rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            transform: translateY(-3px);
+        }
+
+        .section {
+            padding: 5rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #a0aec0;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .content-block {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        .content-block h3 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-block p {
+            color: #cbd5e0;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .content-block ul {
+            color: #cbd5e0;
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-block li {
+            margin-bottom: 0.5rem;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 350px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed rgba(102, 126, 234, 0.5);
+            color: #667eea;
+            font-size: 1rem;
+            text-align: center;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .image-placeholder:hover {
+            border-color: #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .gallery-item {
+            height: 250px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+            border-radius: 15px;
+            border: 2px dashed rgba(102, 126, 234, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(102, 126, 234, 0.1);
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .feature-card p {
+            color: #a0aec0;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .spec-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .spec-label {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .spec-value {
+            color: #fff;
+            font-size: 1.1rem;
+        }
+
+        .download-section {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-radius: 30px;
+            padding: 4rem 2rem;
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .download-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .download-section p {
+            color: #a0aec0;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .version-info {
+            display: inline-block;
+            background: rgba(102, 126, 234, 0.2);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #667eea;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            margin-top: 5rem;
+            border-top: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        footer p {
+            color: #a0aec0;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .section {
+                padding: 3rem 5%;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            .content-block {
+                padding: 2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #667eea;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: particle-float linear infinite;
+        }
+
+        @keyframes particle-float {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(50px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"><div class="particle" style="left: 74.5476%; animation-duration: 7.32039s; animation-delay: 4.8738s;"></div><div class="particle" style="left: 82.4387%; animation-duration: 10.79s; animation-delay: 3.4639s;"></div><div class="particle" style="left: 16.1063%; animation-duration: 5.19224s; animation-delay: 3.41326s;"></div><div class="particle" style="left: 42.6357%; animation-duration: 6.46317s; animation-delay: 4.63592s;"></div><div class="particle" style="left: 46.1518%; animation-duration: 12.9886s; animation-delay: 1.41892s;"></div><div class="particle" style="left: 6.56415%; animation-duration: 8.83894s; animation-delay: 3.83212s;"></div><div class="particle" style="left: 64.4566%; animation-duration: 5.49425s; animation-delay: 3.89546s;"></div><div class="particle" style="left: 59.8899%; animation-duration: 5.54407s; animation-delay: 2.05528s;"></div><div class="particle" style="left: 43.2289%; animation-duration: 12.3987s; animation-delay: 3.44549s;"></div><div class="particle" style="left: 56.6428%; animation-duration: 5.33821s; animation-delay: 3.54343s;"></div><div class="particle" style="left: 9.50434%; animation-duration: 13.242s; animation-delay: 2.0116s;"></div><div class="particle" style="left: 49.9843%; animation-duration: 6.12756s; animation-delay: 3.90954s;"></div><div class="particle" style="left: 39.7999%; animation-duration: 7.51812s; animation-delay: 3.36766s;"></div><div class="particle" style="left: 91.6521%; animation-duration: 9.37972s; animation-delay: 2.55656s;"></div><div class="particle" style="left: 6.12048%; animation-duration: 6.57017s; animation-delay: 1.67422s;"></div><div class="particle" style="left: 21.6194%; animation-duration: 9.09891s; animation-delay: 0.728561s;"></div><div class="particle" style="left: 46.2126%; animation-duration: 13.4879s; animation-delay: 0.575576s;"></div><div class="particle" style="left: 25.9375%; animation-duration: 5.88669s; animation-delay: 0.487163s;"></div><div class="particle" style="left: 40.2738%; animation-duration: 7.08086s; animation-delay: 2.80074s;"></div><div class="particle" style="left: 91.3997%; animation-duration: 8.22658s; animation-delay: 2.61029s;"></div><div class="particle" style="left: 22.6221%; animation-duration: 10.0858s; animation-delay: 3.84614s;"></div><div class="particle" style="left: 87.347%; animation-duration: 12.8868s; animation-delay: 3.4403s;"></div><div class="particle" style="left: 51.3894%; animation-duration: 8.007s; animation-delay: 4.07506s;"></div><div class="particle" style="left: 57.4359%; animation-duration: 6.01801s; animation-delay: 1.51991s;"></div><div class="particle" style="left: 80.6003%; animation-duration: 13.3809s; animation-delay: 3.11307s;"></div><div class="particle" style="left: 33.9738%; animation-duration: 5.44519s; animation-delay: 2.84487s;"></div><div class="particle" style="left: 58.2909%; animation-duration: 7.29162s; animation-delay: 4.52572s;"></div><div class="particle" style="left: 65.4331%; animation-duration: 5.19743s; animation-delay: 0.163331s;"></div><div class="particle" style="left: 35.851%; animation-duration: 5.32371s; animation-delay: 3.06797s;"></div><div class="particle" style="left: 94.3606%; animation-duration: 11.7291s; animation-delay: 3.69163s;"></div><div class="particle" style="left: 88.2819%; animation-duration: 7.71341s; animation-delay: 1.77118s;"></div><div class="particle" style="left: 37.8025%; animation-duration: 5.76937s; animation-delay: 0.683181s;"></div><div class="particle" style="left: 32.2542%; animation-duration: 13.0013s; animation-delay: 2.35981s;"></div><div class="particle" style="left: 26.1004%; animation-duration: 5.73977s; animation-delay: 2.81089s;"></div><div class="particle" style="left: 96.3006%; animation-duration: 11.6014s; animation-delay: 1.92171s;"></div><div class="particle" style="left: 37.0827%; animation-duration: 13.6787s; animation-delay: 2.80132s;"></div><div class="particle" style="left: 33.835%; animation-duration: 12.2353s; animation-delay: 3.17139s;"></div><div class="particle" style="left: 79.0552%; animation-duration: 12.6312s; animation-delay: 2.06688s;"></div><div class="particle" style="left: 20.3992%; animation-duration: 6.3554s; animation-delay: 2.42326s;"></div><div class="particle" style="left: 4.36793%; animation-duration: 7.03829s; animation-delay: 4.5633s;"></div><div class="particle" style="left: 93.63%; animation-duration: 6.58822s; animation-delay: 1.19097s;"></div><div class="particle" style="left: 41.9631%; animation-duration: 7.24879s; animation-delay: 1.26872s;"></div><div class="particle" style="left: 88.8314%; animation-duration: 9.08685s; animation-delay: 1.24275s;"></div><div class="particle" style="left: 3.20855%; animation-duration: 7.90172s; animation-delay: 4.86953s;"></div><div class="particle" style="left: 52.022%; animation-duration: 12.3075s; animation-delay: 1.41308s;"></div><div class="particle" style="left: 42.4974%; animation-duration: 8.63763s; animation-delay: 4.31211s;"></div><div class="particle" style="left: 2.8434%; animation-duration: 10.0449s; animation-delay: 3.65139s;"></div><div class="particle" style="left: 11.407%; animation-duration: 8.1848s; animation-delay: 1.68738s;"></div><div class="particle" style="left: 42.9879%; animation-duration: 12.35s; animation-delay: 3.61553s;"></div><div class="particle" style="left: 39.3257%; animation-duration: 5.10028s; animation-delay: 0.930283s;"></div></div>
+
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">Terran OS</div>
+            <ul class="nav-links">
+                <li><a href="https://br-cybec.github.io/">Inicio</a></li>
+                <li><a href="https://terran-os.github.io/desing.html#acerca">Acerca de</a></li>
+                <li><a href="https://terran-os.github.io/desing.html#galeria">Galería</a></li>
+                <li><a href="https://terran-os.github.io/desing.html#especificaciones">Especificaciones</a></li>
+                <li><a href="https://terran-os.github.io/desing.html#descargar">Descargar</a></li>
+                <li><a href="https://stellar-store.github.io/">Stellar Store</a></li>
+                <li><a href="https://art-ripoll.github.io/">ART Ripoll</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <h1>Terran OS</h1>
+            <p>El sistema operativo Linux diseñado para ser tu nave digital en un mundo tecnologico. Potente, estable y elegante.</p>
+            <div class="cta-buttons">
+                <a href="https://terran-os.github.io/index.html#descargar" class="btn btn-primary">Descargar Ahora</a>
+                <a href="https://terran-os.github.io/index.html#acerca" class="btn btn-secondary">Conocer Más</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="acerca">
+        <h2 class="section-title">Acerca de Terran OS</h2>
+        <p class="section-subtitle">Un sistema operativo creado con pasión, por entusiastas de la tecnología</p>
+        
+        <div class="content-block" style="opacity: 1; transform: translateY(0px); transition: 0.6s ease-out;">
+            <h3>¿Qué es Terran OS?</h3>
+            <p>Terran OS es una distribución basada en Debian, que usa como escritorio por defecto Budgie Desktop. Combinando todo eso mas aplicaciones unicas + la potencia y estabilidad de Debian surge Terran OS.</p>
+            <p>La version 1.0 trae iconos y temas modernos, usa un ecosistema donde se mescla GTK y QT, muchos de los aplicativos son unicos creados y desarrollado por el propio Proyecto.</p>
+            <p>Terran OS: Debian 13.4, Budgie Desktop, Stellar Browser, Stellar VPN, Stellar Cleanes, Stellar Player, Stellar Explorer.</p>
+        </div>
+       
+    </section>
+
+    <section class="section" id="galeria">
+        <h2 class="section-title">Galería de Imágenes</h2>
+        <p class="section-subtitle">Explora la interfaz y características visuales de Hero OS</p>
+        
+        <div class="gallery">
+            <div class="gallery-item" style="opacity: 1; transform: translateY(0px); transition: 0.6s ease-out;">
+                <a href="./picture/terranos-1.png" target="_blank">
+                    <img src="./picture/terranos-1.png" alt="Escritorio de Terran OS" style="width: 100%; height: 100%; object-fit: contain; border-radius: 15px; cursor: pointer;">
+                </a>
+            </div>
+            <div class="gallery-item" style="opacity: 1; transform: translateY(0px); transition: 0.6s ease-out;">
+                <a href="./picture/terranos-1.png" target="_blank">
+                    <img src="./picture/terranos-1.png" alt="Escritorio de Terran OS" style="width: 100%; height: 100%; object-fit: contain; border-radius: 15px; cursor: pointer;">
+                </a>
+            </div>
+            <div class="gallery-item" style="opacity: 1; transform: translateY(0px); transition: 0.6s ease-out;">
+                <a href="./picture/terranos-1.png" target="_blank">
+                    <img src="./picture/terranos-1.png" alt="Escritorio de Terran OS" style="width: 100%; height: 100%; object-fit: contain; border-radius: 15px; cursor: pointer;">
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="especificaciones">
+        <h2 class="section-title">Especificaciones Técnicas</h2>
+        <p class="section-subtitle">Requisitos del sistema y detalles técnicos</p>
+
+        <div class="content-block" style="opacity: 1; transform: translateY(0px); transition: 0.6s ease-out;">
+            <h3>Requisitos Mínimos del Sistema</h3>
+            <div class="specs-grid">
+                <div class="spec-item">
+                    <div class="spec-label">PROCESADOR</div>
+                    <div class="spec-value">Intel Core 2 Duo o mayor</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">MEMORIA RAM</div>
+                    <div class="spec-value">2 GB (4 GB recomendado)</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">ALMACENAMIENTO</div>
+                    <div class="spec-value">30 GB de espacio disponible</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">GRÁFICOS</div>
+                    <div class="spec-value">Tarjeta con soporte OpenGL 2.1</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-block" style="opacity: 1; transform: translateY(0px); transition: 0.6s ease-out;">
+            <h3>Detalles de la Distribución</h3>
+            <div class="specs-grid">
+                <div class="spec-item">
+                    <div class="spec-label">KERNEL</div>
+                    <div class="spec-value">Linux 6.12 LTS</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">ENTORNO DE ESCRITORIO</div>
+                    <div class="spec-value">Budgie Desktop</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">GESTOR DE PAQUETES</div>
+                    <div class="spec-value">APT / Flatpak </div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">SISTEMA DE ARCHIVOS</div>
+                    <div class="spec-value">EXT4 / NTFS</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-block" style="opacity: 1; transform: translateY(0px); transition: 0.6s ease-out;">
+            <h3>Información de Soporte</h3>
+            <p>Terran OS recibe actualizaciones conjuntas con las actualizaciones de Debian y cuando hay nuevas características. Cada versión LTS (Long Term Support) recibe soporte durante 5 años.</p>
+            <p>Nuestro equipo están siempre disponibles para ayudarte a través de nuestras redes sociales, documentación y canales de soporte.</p>
+        </div>
+    </section>
+
+    <section class="section" id="descargar">
+        <div class="download-section">
+            <h2>Descarga Terran OS</h2>
+            <p>Listo para pilotiar la Nave con el sistema operativo del futuro</p>
+            <a href="https://1024terabox.com/s/16w7iJV1s-FxzjB34EmK4lw" class="btn btn-primary">Descargar Terran OS</a>
+            <div class="version-info">Versión 2.0 LTS • 64-bit • ~3.7 GB ISO</div>
+        </div>
+
+        <div class="content-block" style="opacity: 0; transform: translateY(30px); transition: 0.6s ease-out;">
+            <h3>Instrucciones de Instalación</h3>
+            <p>Instalar Terran OS es un proceso simple y directo. Sigue estos pasos:</p>
+            <ul>
+                <li><strong>Paso 1:</strong> Descarga la imagen ISO desde el enlace de arriba</li>
+                <li><strong>Paso 2:</strong> Crea un USB booteable usando herramientas como Rufus, Etcher o dd</li>
+                <li><strong>Paso 3:</strong> Reinicia tu computadora y arranca desde el USB</li>
+                <li><strong>Paso 4:</strong> Sigue el asistente de instalación gráfico</li>
+                <li><strong>Paso 5:</strong> ¡Disfruta de Terran OS!</li>
+            </ul>
+            <p>Para instrucciones más detalladas, puedes entrar en contacto en el sitio del desarrollado.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>© Terran OS. Desarrollado con ❤️ para la comunidad Linux.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Código abierto • Gratuito para siempre • Hecho por B&amp;R.Comp</p>
+    </footer>
+
+    <script>
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 10 + 5) + 's';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .content-block, .gallery-item').forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(30px)';
+            element.style.transition = 'all 0.6s ease-out';
+            observer.observe(element);
+        });
+    </script>
+
+<protonpass-root-a136 data-protonpass-role="root" data-protonpass-theme="os"><template shadowrootmode="closed"></template></protonpass-root-a136></body></html>
